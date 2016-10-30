@@ -1,5 +1,3 @@
+require "vueport/helper"
+require "vueport/renderer"
 require "vueport/version"
-
-module Vueport
-  # Your code goes here...
-end
