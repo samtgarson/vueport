@@ -1,6 +1,8 @@
 # Vueport
 >Single file components for Rails with Vue JS and Webpack
 
+[![CircleCI](https://circleci.com/gh/samtgarson/vueport.svg?style=svg)](https://circleci.com/gh/samtgarson/vueport)
+
 Vueport provides your Rails app with a modern, componentized approach to UI development by using Webpack and Vue.js to enable single file, reactive components rendered on the server and the client and seamless integration with your Rails views.
 
 Take a look at the Vue.js [documentation on single file components](https://vuejs.org/guide/single-file-components.html) for more information on that side of things.
