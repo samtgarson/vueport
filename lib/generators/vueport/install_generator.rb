@@ -82,6 +82,7 @@ module Vueport
       remove_file "webpack/application.js"
       copy_file "application.js", "webpack/application.js"
       copy_file "setup.js", "webpack/setup.js"
+      copy_file "server.js", "webpack/server.js"
       copy_file "index.js", "index.js"
       copy_file "babelrc", ".babelrc"
       empty_directory 'app/components'
