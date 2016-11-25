@@ -19,7 +19,7 @@ describe Vueport::Helper do
       vueport { content }
     end
 
-    it 'it accepts and renders a block' do
+    it 'it accepts and renders a argument' do
       expect(Vueport::Renderer).to receive(:new).with(content).and_return(renderer)
 
       vueport(content)

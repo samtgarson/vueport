@@ -1,14 +1,10 @@
-require 'open3'
-require 'shellwords'
-
 module Vueport
-  class RenderError < StandardError; end
-
   class Renderer
     WRAPPER_ID = 'vueport-wrapper'.freeze
+    attr_accessor :content
     
     def initialize(content)
-      @content = content
+      self.content = content
     end
 
     def render
@@ -18,18 +14,17 @@ module Vueport
     private
 
       def rendered_content
-        ssr_enabled? ? ssr_content : @content
+        ssr_enabled? ? ssr_content : wrapped_content
       end
 
       def ssr_content
-        Open3.popen3(render_command) do |stdin, stdout, stderr, wait_thr|
-          raise(RenderError.new, stderr.read) and return unless wait_thr.value.success?
-          stdout.read
-        end
+        Vueport::NodeClient.new(wrapped_content).run!
+      rescue Vueport::RenderError
+        wrapped_content
       end
 
-      def render_command
-        "node . --html #{Shellwords.escape("<div id='#{WRAPPER_ID}'>#{@content}</div>")}"
+      def wrapped_content
+        "<div id='#{WRAPPER_ID}'>#{content}</div>"
       end
 
       def ssr_enabled?
