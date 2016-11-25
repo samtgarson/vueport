@@ -1,6 +1,6 @@
 module Vueport
   class Renderer
-    WRAPPER_ID = 'vueport-wrapper'
+    WRAPPER_ID = 'vueport-wrapper'.freeze
     
     def initialize(content)
       @content = content
