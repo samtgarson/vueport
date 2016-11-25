@@ -1,7 +1,7 @@
 module Vueport
   class InstallGenerator < ::Rails::Generators::Base
-    source_root File.expand_path("../../../../example", __FILE__)
-    desc "Install extras for using Vue with WebpackRails"
+    source_root File.expand_path('../../../../example', __FILE__)
+    desc 'Install extras for using Vue with WebpackRails'
 
     def add_webpack_rails
       gem 'webpack-rails'
@@ -13,7 +13,8 @@ module Vueport
     end
 
     def insert_resolve
-      inject_into_file 'config/webpack.config.js', after: "root: path.join(__dirname, '..', 'webpack')" do <<~HEREDOC
+      inject_into_file 'config/webpack.config.js', after: "root: path.join(__dirname, '..', 'webpack')" do
+        <<~HEREDOC
         ,
             extensions: ['', '.js', '.vue'],
             fallback: [path.join(__dirname, '../node_modules'), path.join(__dirname, '../app/'),],
@@ -26,7 +27,8 @@ module Vueport
     end
 
     def insert_module
-      inject_into_file 'config/webpack.config.js', after: "assets: true\n    })]" do <<~HEREDOC
+      inject_into_file 'config/webpack.config.js', after: "assets: true\n    })]" do
+        <<~HEREDOC
         ,
             // Use the necessary loaders to process our components
             module: {
@@ -56,13 +58,14 @@ module Vueport
     end
 
     def insert_css_extract
-      inject_into_file 'config/webpack.config.js', after: "var StatsPlugin = require('stats-webpack-plugin');" do <<~HEREDOC
-
+      inject_into_file 'config/webpack.config.js', after: "var StatsPlugin = require('stats-webpack-plugin');" do
+        <<~HEREDOC
         var ExtractTextPlugin = require("extract-text-webpack-plugin");
       HEREDOC
       end
 
-      inject_into_file 'config/webpack.config.js', after: 'new webpack.optimize.OccurenceOrderPlugin()' do <<~HEREDOC
+      inject_into_file 'config/webpack.config.js', after: 'new webpack.optimize.OccurenceOrderPlugin()' do
+        <<~HEREDOC
         ,
             new ExtractTextPlugin("application.css")
       HEREDOC
@@ -71,25 +74,25 @@ module Vueport
 
     def update_dev_tool
       gsub_file 'config/webpack.config.js', 'cheap-module-eval-source-map', '#eval-source-map'
-
     end
 
     def create_server_config
-      copy_file "webpack.server.js", "config/webpack.server.js"
+      copy_file 'webpack.server.js', 'config/webpack.server.js'
     end
 
     def create_setup_files
-      remove_file "webpack/application.js"
-      copy_file "application.js", "webpack/application.js"
-      copy_file "setup.js", "webpack/setup.js"
-      copy_file "server.js", "webpack/server.js"
-      copy_file "index.js", "index.js"
-      copy_file "babelrc", ".babelrc"
+      remove_file 'webpack/application.js'
+      copy_file 'application.js', 'webpack/application.js'
+      copy_file 'setup.js', 'webpack/setup.js'
+      copy_file 'server.js', 'webpack/server.js'
+      copy_file 'index.js', 'index.js'
+      copy_file 'babelrc', '.babelrc'
       empty_directory 'app/components'
     end
 
     def add_npm_scripts
-      inject_into_file 'package.json', before: '"dependencies": {' do <<~HEREDOC
+      inject_into_file 'package.json', before: '"dependencies": {' do
+        <<~HEREDOC
         "scripts": {
             "dev-server": "./node_modules/.bin/webpack-dev-server --hot --inline --config config/webpack.config.js --host 0.0.0.0"
           },
@@ -99,7 +102,8 @@ module Vueport
     end
 
     def add_npm_dependencies
-      inject_into_file 'package.json', after: '"webpack-dev-server": "^1.9.0"' do <<~HEREDOC
+      inject_into_file 'package.json', after: '"webpack-dev-server": "^1.9.0"' do
+        <<~HEREDOC
         ,
             "extract-text-webpack-plugin": "^1.0.1",
             "minimist": "^1.2.0",
@@ -120,15 +124,16 @@ module Vueport
     end
 
     def run_npm_install
-      run "npm install" if yes?("Would you like me to run 'npm install' for you (I've added a few things since last time?) [y/N]")
+      run 'npm install' if yes?("Would you like me to run 'npm install' for you (I've added a few things since last time?) [y/N]")
     end
 
     def whats_next
+      # rubocop:disable Rails/Output
       puts <<-EOF.strip_heredoc
 
         I've added a few things here and there to set you up using Vue in your Rails app.
-        
-        Now you're already to create your first Vue component in app/components. 
+
+        Now you're already to create your first Vue component in app/components.
         Run 'foreman start' to run the webpack-dev-server and rails server.
 
         See the README.md for this gem at
@@ -136,6 +141,7 @@ module Vueport
         for more info.
         Thanks for using Vueport!
       EOF
+      # rubocop:enable Rails/Output
     end
   end
 end

@@ -1,7 +1,7 @@
 namespace :vueport do
-  desc "Compile client and server bundles"
+  desc 'Compile client and server bundles'
   task compile: :environment do
-    ENV["NODE_ENV"] = 'production'
+    ENV['NODE_ENV'] = 'production'
     webpack_bin = ::Rails.root.join(::Rails.configuration.webpack.binary)
     config_file = ::Rails.root.join(::Rails.configuration.webpack.config_file)
     server_config_file = ::Rails.root.join(::Rails.configuration.vueport.server_config_file)

@@ -4,4 +4,3 @@ require 'action_view'
 require 'vueport'
 
 Bundler.require :default, :development
-

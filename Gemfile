@@ -7,4 +7,3 @@ group :test do
   gem 'pry-byebug'
   gem 'pry-rails'
 end
-

@@ -7,7 +7,7 @@ describe Vueport::NodeClient do
     subject { described_class.new(content) }
 
     it 'runs the node command' do
-      expect(Open3).to receive(:popen3).with("node . --html \\<content\\>")
+      expect(Open3).to receive(:popen3).with('node . --html \\<content\\>')
       subject.run!
     end
 
@@ -16,7 +16,7 @@ describe Vueport::NodeClient do
     let(:error_stub) { double(read: error) }
 
     it 'raises if an error occurs' do
-      allow(Open3).to receive(:popen3).and_yield(*[nil, nil, error_stub, wait_stub])
+      allow(Open3).to receive(:popen3).and_yield(nil, nil, error_stub, wait_stub)
       expect { subject.run! }.to raise_error(Vueport::RenderError, error)
     end
   end

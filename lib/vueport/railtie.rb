@@ -9,7 +9,7 @@ module Vueport
     config.vueport.ssr_enabled = ::Rails.env.production?
 
     rake_tasks do
-      load "tasks/vueport.rake"
+      load 'tasks/vueport.rake'
     end
   end
 end

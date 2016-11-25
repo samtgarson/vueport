@@ -1,0 +1,7 @@
+inherit_from: 'https://raw.githubusercontent.com/samtgarson/my-config/master/.rubucop.yml'
+
+AllCops:
+  TargetRubyVersion: 2.3
+
+Rails/OutputSafety:
+  Enabled: false

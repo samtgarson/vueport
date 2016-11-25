@@ -2,7 +2,7 @@ module Vueport
   class Renderer
     WRAPPER_ID = 'vueport-wrapper'.freeze
     attr_accessor :content
-    
+
     def initialize(content)
       self.content = content
     end
