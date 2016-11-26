@@ -1,7 +1,7 @@
 # Vueport
 >Single file components and SSR for Rails with Vue JS and Webpack
 
-[![CircleCI](https://circleci.com/gh/samtgarson/vueport.svg?style=svg)](https://circleci.com/gh/samtgarson/vueport) ![](http://ruby-gem-downloads-badge.herokuapp.com/vueport?type=total) ![Gem Version](https://badge.fury.io/rb/vueport.svg)
+[![CircleCI](https://img.shields.io/circleci/project/github/samtgarson/vueport.svg)](https://circleci.com/gh/samtgarson/vueport) [![Gem Version](https://img.shields.io/gem/v/vueport.svg)](https://rubygems.org/gems/vueport) [![Gem Downloads](https://img.shields.io/gem/dt/vueport.svg)](https://rubygems.org/gems/vueport)
 
 Vueport provides your Rails app with a modern, componentized approach to UI development by using Webpack and Vue.js to enable single file, reactive components rendered on the server and the client and seamless integration with your Rails views.
 
@@ -29,7 +29,13 @@ Or install it yourself as:
 
     $ gem install vueport
 
-Then just run `bundle exec foreman start` to boot your Rails app and the Webpack Development Server!
+Then just run 
+
+```
+bundle exec foreman start
+```
+
+to boot your Rails app and the Webpack Development Server!
 
 ## Deployment
 
@@ -125,6 +131,10 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/samtgarson/vueport. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
+## Thanks
+
+- Many thanks to [Evan You](https://github.com/yyx990803) and the VueJS for sustaining such a vibrant and supporting community around Vue JS
+- Many thanks also to [mipearson](https://github.com/mipearson) for his WebpackRails gem which this gem completely cannibalizes
 
 ## License
 
