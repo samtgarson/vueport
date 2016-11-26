@@ -1,5 +1,15 @@
 require 'spec_helper'
 
+shared_examples_for 'a basic renderer' do
+  it 'serves an empty wrapper' do
+    expect(subject.render).to have_tag wrapper_selector, text: ''
+  end
+
+  it 'serves the original template' do
+    expect_to_contain_original_template
+  end
+end
+
 describe Vueport::Renderer do
   include RSpecHtmlMatchers
 
@@ -13,16 +23,7 @@ describe Vueport::Renderer do
         allow(subject).to receive(:ssr_enabled?).and_return false
       end
 
-      it 'wraps the content' do
-        expect(subject.render).to have_tag wrapper_selector, text: content
-      end
-    end
-
-    def expect_to_contain_original_template
-      render = subject.render
-      expect(render).to have_tag "script##{described_class::TEMPLATE_ID}"
-      expect(render).to include described_class::CONTENT_WRAPPER_ID
-      expect(render).to include content
+      it_behaves_like 'a basic renderer'
     end
 
     context 'with SSR' do
@@ -50,14 +51,15 @@ describe Vueport::Renderer do
           allow(node_client).to receive(:run!).and_raise(Vueport::RenderError)
         end
 
-        it 'returns unrendered content' do
-          expect(subject.render).to have_tag wrapper_selector, text: ''
-        end
-
-        it 'serves the original template' do
-          expect_to_contain_original_template
-        end
+        it_behaves_like 'a basic renderer'
       end
     end
+  end
+
+  def expect_to_contain_original_template
+    render = subject.render
+    expect(render).to have_tag "script##{described_class::TEMPLATE_ID}"
+    expect(render).to include described_class::CONTENT_WRAPPER_ID
+    expect(render).to include content
   end
 end

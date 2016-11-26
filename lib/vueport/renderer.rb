@@ -18,20 +18,20 @@ module Vueport
     private
 
       def rendered_content
-        ssr_enabled? ? ssr_content : wrapped_content
+        ssr_enabled? ? ssr_content : wrapper
       end
 
       def template
-        content_tag :script, wrapped_content, type: 'text/x-template', id: TEMPLATE_ID
+        content_tag :script, wrapper(content), type: 'text/x-template', id: TEMPLATE_ID
       end
 
       def ssr_content
-        Vueport::NodeClient.new(wrapped_content).run!
+        Vueport::NodeClient.new(wrapper(content)).run!
       rescue Vueport::RenderError
-        content_tag :div, '', id: CONTENT_WRAPPER_ID
+        wrapper
       end
 
-      def wrapped_content
+      def wrapper(content = '')
         content_tag :div, content, id: CONTENT_WRAPPER_ID
       end
 
