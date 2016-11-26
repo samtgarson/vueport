@@ -9,7 +9,15 @@ module Vueport
 
     def bundle_and_install_webpack
       run 'gem install webpack-rails'
-      run 'rails g webpack_rails:install'
+      generate 'webpack_rails:install'
+    end
+
+    def add_to_gitignore
+      append_to_file '.gitignore' do
+        <<-EOF.strip_heredoc
+        npm-debug.log
+        EOF
+      end
     end
 
     def insert_resolve
@@ -44,10 +52,15 @@ module Vueport
                 },
                 {
                   test: /\.css$/,
-                  loader: production ? ExtractTextPlugin.extract('style', 'css') : 'style!css',
+                  loader: production ? ExtractTextPlugin.extract('vue-style', 'css') : 'style!css',
                   fallbackLoader: 'vue-style-loader'
                 }
               ]
+            },
+            vue: {
+              loaders: {
+                css: production ? ExtractTextPlugin.extract('vue-style', "css") : 'style!css'
+              }
             }
       HEREDOC
       end
@@ -60,8 +73,9 @@ module Vueport
     def insert_css_extract
       inject_into_file 'config/webpack.config.js', after: "var StatsPlugin = require('stats-webpack-plugin');" do
         <<~HEREDOC
-        var ExtractTextPlugin = require("extract-text-webpack-plugin");
-      HEREDOC
+
+          var ExtractTextPlugin = require("extract-text-webpack-plugin");
+        HEREDOC
       end
 
       inject_into_file 'config/webpack.config.js', after: 'new webpack.optimize.OccurenceOrderPlugin()' do

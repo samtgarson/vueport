@@ -1,8 +1,11 @@
 require 'spec_helper'
 
 describe Vueport::Renderer do
+  include RSpecHtmlMatchers
+
   describe '#render' do
     let(:content) { 'content' }
+    let(:wrapper_selector) { "div##{described_class::CONTENT_WRAPPER_ID}" }
     subject { described_class.new(content) }
 
     context 'without SSR' do
@@ -10,9 +13,16 @@ describe Vueport::Renderer do
         allow(subject).to receive(:ssr_enabled?).and_return false
       end
 
-      it 'renders and wraps the content' do
-        expect(subject.render).to eql "<div id='#{described_class::WRAPPER_ID}'>#{content}</div>"
+      it 'wraps the content' do
+        expect(subject.render).to have_tag wrapper_selector, text: content
       end
+    end
+
+    def expect_to_contain_original_template
+      render = subject.render
+      expect(render).to have_tag "script##{described_class::TEMPLATE_ID}"
+      expect(render).to include described_class::CONTENT_WRAPPER_ID
+      expect(render).to include content
     end
 
     context 'with SSR' do
@@ -26,8 +36,12 @@ describe Vueport::Renderer do
       end
 
       context 'and everything runs smoothly' do
-        it 'renders and wraps the content' do
-          expect(subject.render).to eql rendered_content
+        it 'renders the content' do
+          expect(subject.render).to match(/^#{rendered_content}/)
+        end
+
+        it 'serves the original template' do
+          expect_to_contain_original_template
         end
       end
 
@@ -37,7 +51,11 @@ describe Vueport::Renderer do
         end
 
         it 'returns unrendered content' do
-          expect(subject.render).to eql "<div id='#{described_class::WRAPPER_ID}'>#{content}</div>"
+          expect(subject.render).to have_tag wrapper_selector, text: ''
+        end
+
+        it 'serves the original template' do
+          expect_to_contain_original_template
         end
       end
     end
