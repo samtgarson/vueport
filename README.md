@@ -31,11 +31,19 @@ Or install it yourself as:
 
 Then just run 
 
+```shell
+rails generate vue:install
 ```
+
+to bootstrap everything you need to get started (this will install WebpackRails and also everything Vueport needs on top).
+
+To run your app, execute
+
+```shell
 bundle exec foreman start
 ```
 
-to boot your Rails app and the Webpack Development Server!
+to boot the Webpack Dev server and your Rails app!
 
 ## Deployment
 
