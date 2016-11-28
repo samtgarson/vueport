@@ -32,7 +32,7 @@ Or install it yourself as:
 Then just run 
 
 ```shell
-rails generate vue:install
+rails generate vueport:install
 ```
 
 to bootstrap everything you need to get started (this will install WebpackRails and also everything Vueport needs on top).
