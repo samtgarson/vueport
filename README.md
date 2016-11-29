@@ -90,7 +90,7 @@ E.g.:
         <%= yield %>
     <% end %>
 
-    <%= stylesheet_link_tag *webpack_asset_paths('application', extension:  'js') %>
+    <%= javascript_include_tag *webpack_asset_paths("application", extension: 'js') %>
 </body>
 ```
 
