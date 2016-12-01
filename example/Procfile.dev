@@ -1,0 +1,2 @@
+rails: bundle exec rails server
+webpack: npm run dev-server

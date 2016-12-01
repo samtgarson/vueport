@@ -36,7 +36,7 @@ module Vueport
       end
 
       def ssr_enabled?
-        ::Rails.configuration.vueport.ssr_enabled
+        Vueport.config[:ssr_enabled]
       end
   end
 end

@@ -20,7 +20,7 @@ describe Vueport::Renderer do
 
     context 'without SSR' do
       before do
-        allow(subject).to receive(:ssr_enabled?).and_return false
+        Vueport.configure { |c| c[:ssr_enabled] = false }
       end
 
       it_behaves_like 'a basic renderer'
@@ -32,8 +32,8 @@ describe Vueport::Renderer do
       let(:node_client) { instance_double('Vueport::NodeClient', run!: rendered_content) }
 
       before do
-        allow(subject).to receive(:ssr_enabled?).and_return true
         allow(Vueport::NodeClient).to receive(:new).and_return(node_client)
+        Vueport.configure { |c| c[:ssr_enabled] = true }
       end
 
       context 'and everything runs smoothly' do

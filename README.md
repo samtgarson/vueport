@@ -96,7 +96,15 @@ E.g.:
 
 ### Default config
 
-Out of the box, Vueport expects your components to live in _app/components_, and compiles assets to _public/webpack_. To change these, you'll need to change both the Webpack config (in _config/webpack.config.js_ and _config/webpack.server.js_) and the Rails application config (_in config/application.rb_). Check out the Railties in this gem and WebpackRails for more information.
+Out of the box, Vueport expects your components to live in _app/components_, and compiles assets to _public/webpack_. To change these, you'll need to change both the Webpack config (in _config/webpack.config.js_ and _config/webpack.server.js_) and the Vue gem application config. To do this, in an initializer do:
+
+```ruby
+Vueport.configure do |config|
+    config[:server_port] = 3001
+end
+```
+
+_Check out the WebpackRails gem for information on its configuration._
 
 ## How does it work?
 

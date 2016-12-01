@@ -16,7 +16,7 @@ var config = {
   resolve: {
     root: path.join(__dirname, '..', 'webpack'),
     extensions: ['', '.js', '.vue'],
-    fallback: [path.join(__dirname, '../node_modules'), path.join(__dirname, '../app/'),]
+    fallback: [path.join(__dirname, '../node_modules'), path.join(__dirname, '../app/')]
   },
 
   plugins: [

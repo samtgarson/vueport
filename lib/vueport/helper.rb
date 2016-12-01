@@ -6,5 +6,3 @@ module Vueport
     end
   end
 end
-
-ActionView::Base.send(:include, Vueport::Helper)

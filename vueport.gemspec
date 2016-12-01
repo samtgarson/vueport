@@ -25,8 +25,9 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rubocop', '~> 0.45.0'
   spec.add_development_dependency 'rspec-html-matchers', '~> 0.8.1'
 
-  spec.add_runtime_dependency 'rails', '>= 3.2.0'
-  spec.add_runtime_dependency 'webpack-rails', '~> 0.9.9'
+  spec.add_dependency 'rails', '>= 3.2.0'
+  spec.add_dependency 'webpack-rails', '~> 0.9.9'
+  spec.add_dependency 'httparty', '~> 0.14.0'
 
   spec.required_ruby_version = '>= 2.0.0'
 end

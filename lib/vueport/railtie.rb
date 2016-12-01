@@ -1,12 +1,19 @@
 require 'rails'
 require 'rails/railtie'
+require 'vueport'
 
 module Vueport
   # :nodoc:
   class Railtie < ::Rails::Railtie
-    config.vueport = ActiveSupport::OrderedOptions.new
-    config.vueport.server_config_file = 'config/webpack.server.js'
-    config.vueport.ssr_enabled = ::Rails.env.production?
+    Vueport.configure do |config|
+      config[:ssr_enabled] = ::Rails.env.production?
+    end
+
+    config.after_initialize do
+      ActiveSupport.on_load(:action_view) do
+        include Vueport::Helper
+      end
+    end
 
     rake_tasks do
       load 'tasks/vueport.rake'

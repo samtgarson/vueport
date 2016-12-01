@@ -67,7 +67,9 @@ module Vueport
     end
 
     def update_procfile
-      gsub_file 'Procfile', './node_modules/.bin/webpack-dev-server --config config/webpack.config.js', 'npm run dev-server'
+      remove_file 'Procfile'
+      copy_file 'example/Procfile.dev', 'Procfile.dev'
+      copy_file 'example/Procfile.prod', 'Procfile.prod'
     end
 
     def insert_css_extract
@@ -108,7 +110,8 @@ module Vueport
       inject_into_file 'package.json', before: '"dependencies": {' do
         <<~HEREDOC
         "scripts": {
-            "dev-server": "./node_modules/.bin/webpack-dev-server --hot --inline --config config/webpack.config.js --host 0.0.0.0"
+            "dev-server": "./node_modules/.bin/webpack-dev-server --hot --inline --config config/webpack.config.js --host 0.0.0.0",
+            "start": "NODE_ENV=production node ."
           },
 
       HEREDOC
@@ -119,8 +122,10 @@ module Vueport
       inject_into_file 'package.json', after: '"webpack-dev-server": "^1.9.0"' do
         <<~HEREDOC
         ,
+            "body-parser": "^1.15.2",
+            "express": "^4.14.0",
+            "morgan": "^1.7.0",
             "extract-text-webpack-plugin": "^1.0.1",
-            "minimist": "^1.2.0",
             "vue": "^2.1.3",
             "vue-server-renderer": "^2.1.3",
             "babel-core": "^6.17.0",

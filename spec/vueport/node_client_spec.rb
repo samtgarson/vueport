@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'open3'
+require 'httparty'
 
 describe Vueport::NodeClient do
   describe '#run!' do
@@ -7,22 +7,21 @@ describe Vueport::NodeClient do
     subject { described_class.new(content) }
 
     context 'and node renders successfully' do
-      let(:wait_stub) { double(value: double(success?: true)) }
-      let(:stdout_stub) { double(read: content) }
+      let(:response) { double('HTTParty::Response', code: 200, body: content) }
 
       it 'runs the node command' do
-        expect(Open3).to receive(:popen3).with('node . --html \\<content\\>').and_yield(nil, stdout_stub, nil, wait_stub)
+        expect(HTTParty).to receive(:post).and_return response
         subject.run!
       end
     end
 
     context 'and node throws an error' do
       let(:error) { 'error' }
-      let(:wait_stub) { double(value: double(success?: false)) }
-      let(:error_stub) { double(read: error) }
+      let(:response) { double('HTTParty::Response', code: 500, body: error) }
+
+      before { allow(HTTParty).to receive(:post).and_return response }
 
       it 'raises' do
-        allow(Open3).to receive(:popen3).and_yield(nil, nil, error_stub, wait_stub)
         expect { subject.run! }.to raise_error(Vueport::RenderError, error)
       end
     end

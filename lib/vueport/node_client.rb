@@ -1,5 +1,3 @@
-require 'open3'
-require 'shellwords'
 
 module Vueport
   class RenderError < StandardError; end
@@ -12,20 +10,31 @@ module Vueport
     end
 
     def run!
-      rendered_content.html_safe
+      render.html_safe
     end
 
     private
 
-      def rendered_content
-        Open3.popen3(render_command) do |_stdin, stdout, stderr, wait_thr|
-          raise(RenderError.new, stderr.read) and break unless wait_thr.value.success?
-          stdout.read
-        end
+      def render
+        raise(RenderError.new, response.body) if response.code != 200
+        response.body
       end
 
-      def render_command
-        "node . --html #{Shellwords.escape(content)}"
+      def response
+        @response ||= HTTParty.post("http://#{server_uri}/render", post_params)
+      end
+
+      def post_params
+        {
+          body: content,
+          headers: {
+            'Content-Type': 'text/plain'
+          }
+        }
+      end
+
+      def server_uri
+        "#{Vueport.config[:server_host]}:#{Vueport.config[:server_port]}"
       end
   end
 end

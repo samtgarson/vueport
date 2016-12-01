@@ -4,7 +4,7 @@ namespace :vueport do
     ENV['NODE_ENV'] = 'production'
     webpack_bin = ::Rails.root.join(::Rails.configuration.webpack.binary)
     config_file = ::Rails.root.join(::Rails.configuration.webpack.config_file)
-    server_config_file = ::Rails.root.join(::Rails.configuration.vueport.server_config_file)
+    server_config_file = ::Rails.root.join(Vueport.config[:server_config_file])
 
     unless File.exist?(webpack_bin)
       raise "Can't find our webpack executable at #{webpack_bin} - have you run `npm install`?"
