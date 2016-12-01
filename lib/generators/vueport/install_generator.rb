@@ -81,7 +81,7 @@ module Vueport
       inject_into_file 'config/webpack.config.js', after: 'new webpack.optimize.OccurenceOrderPlugin()' do
         <<~HEREDOC
         ,
-            new ExtractTextPlugin("application.css")
+            new ExtractTextPlugin('[name]-[chunkhash].css')
       HEREDOC
       end
     end
