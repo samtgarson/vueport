@@ -40,14 +40,16 @@ to bootstrap everything you need to get started (this will install WebpackRails 
 To run your app, execute
 
 ```shell
-bundle exec foreman start
+bundle exec foreman start -f Procfile.dev
 ```
 
 to boot the Webpack Dev server and your Rails app!
 
-## Deployment
+## Production Deployment
 
 Ensure to run `rails vueport:compile` as part of your deployment process to production. This compiles the production version of your client side bundle, as well as compiling the server side bundle for our Node JS app to use.
+
+In production we send HTTP requests to a basic NodeJS server to render our content. To run the Rails app and the Node server concurrently, use `Procfile`.
 
 ## Usage
 
@@ -133,7 +135,7 @@ For a Vue.js and React [collaborative](https://github.com/vuejs/vuejs.org/issues
 ## To Do
 
 - [x] Handle SSR
-- [ ] Enable SSR in development by compiling components for server config
+- [ ] Make webpack config more like the config from the [Vue CLI template](https://github.com/vuejs-templates/webpack/tree/master/template/build)
 - [ ] Optimize SSR interaction with NodeJS
 - [ ] JS Component test setup
 
