@@ -68,8 +68,8 @@ module Vueport
 
     def update_procfile
       remove_file 'Procfile'
-      copy_file 'example/Procfile.dev', 'Procfile.dev'
-      copy_file 'example/Procfile', 'Procfile'
+      copy_file 'Procfile.dev', 'Procfile.dev'
+      copy_file 'Procfile', 'Procfile'
     end
 
     def insert_css_extract
