@@ -12,7 +12,8 @@ module Vueport
     @config ||= {
       server_host: 'localhost',
       server_port: 5000,
-      server_config_file: 'config/webpack.server.js',
+      server_config_file: 'config/vueport/webpack.server.conf',
+      client_config_file: 'config/vueport/webpack.prod.conf',
       ssr_enabled: false
     }
   end

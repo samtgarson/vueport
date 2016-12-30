@@ -1,0 +1,17 @@
+{
+  "name": "vueport-renderer",
+  "repository": "samtgarson/vueport",
+  "description": "Vueport Server Side Renderer",
+  "version": "0.0.1",
+  "license": "MIT",
+  "scripts": {
+    "start": "node ."
+  },
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "morgan": "^1.7.0",
+    "vue-server-renderer": "2.1.4",
+    "vue-template-compiler": "2.1.4"
+  }
+}
