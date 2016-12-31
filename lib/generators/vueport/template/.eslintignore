@@ -1,2 +1,4 @@
 public/**/*.js
 config/**/*.js
+node_modules/**/*.js
+renderer/node_modules/**/*.js

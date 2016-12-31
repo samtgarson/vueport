@@ -19,6 +19,7 @@ module Vueport
 
         /renderer/node_modules
         /renderer/npm-debug.log
+        /renderer/bundle.server.js
         EOF
       end
     end
@@ -54,8 +55,10 @@ module Vueport
     def run_npm_install
       if yarn? && yes?("Would you like me to run 'yarn' for you? [y/N]")
         run 'yarn'
+        run 'cd renderer && yarn'
       elsif !yarn? && yes?("Would you like me to run 'npm install' for you? [y/N]")
-        run 'npm install'
+        run 'npm i'
+        run 'cd renderer && npm i'
       end
     end
 
