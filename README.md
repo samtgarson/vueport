@@ -110,13 +110,15 @@ _Check out the WebpackRails gem for information on its configuration._
 
 ## How does it work?
 
-To see how WebpackRails works, take a look at [this section of the readme](https://github.com/mipearson/webpack-rails#how-it-works).
+What Vueport gives you is effectively 3 applications:
 
-Vueport extends the functionality of WebpackRails by adding a few extra features:
+- Your base rails app
+- A Node app for server side rendering in production (in /renderer)
+- A Node app for running webpack in development
 
-- Webpack setup to read and compile Vue components
-- Webpack setup to enable HMR (Hot Module Reloading) for an A+ development experience
-- Server Side rendering in production.
+These have been set up so that they can be built for production completely separately to avoid complicated pipelines—for example, you can run these 3 application using Docker completely separately meaning you don't need Ruby and Node in a single Dockerfile.
+
+For more information on how Webpack has been integrated with Rails, check out [this section of the Webpack Rails readme](https://github.com/mipearson/webpack-rails#how-it-works).
 
 ### Server Side Rendering (SSR)
 
@@ -135,7 +137,7 @@ For a Vue.js and React [collaborative](https://github.com/vuejs/vuejs.org/issues
 ## To Do
 
 - [x] Handle SSR
-- [ ] Make webpack config more like the config from the [Vue CLI template](https://github.com/vuejs-templates/webpack/tree/master/template/build)
+- [x] Make webpack config more like the config from the [Vue CLI template](https://github.com/vuejs-templates/webpack/tree/master/template/build)
 - [ ] Optimize SSR interaction with NodeJS
 - [ ] JS Component test setup
 
@@ -151,8 +153,8 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/samtga
 
 ## Thanks
 
-- Many thanks to [Evan You](https://github.com/yyx990803) and the VueJS for sustaining such a vibrant and supporting community around Vue JS
-- Many thanks also to [mipearson](https://github.com/mipearson) for his WebpackRails gem which this gem completely cannibalizes
+- Many thanks to [Evan You](https://github.com/yyx990803) and the VueJS team for sustaining such a vibrant and supportive community around Vue JS
+- Many thanks also to [mipearson](https://github.com/mipearson) for his WebpackRails gem on which this gem relies.
 
 ## License
 
