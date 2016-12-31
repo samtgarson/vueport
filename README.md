@@ -47,7 +47,7 @@ to boot the Webpack Dev server and your Rails app!
 
 ## Production Deployment
 
-Ensure to run `rails vueport:compile` as part of your deployment process to production. This compiles the production version of your client side bundle, as well as compiling the server side bundle for our Node JS app to use.
+Ensure to run `npm run compile` (or `yarn run compile`) as part of your deployment process to production. This compiles the production version of your client side bundle, as well as compiling the server side bundle for our Node JS app to use.
 
 In production we send HTTP requests to a basic NodeJS server to render our content. To run the Rails app and the Node server concurrently, use `Procfile`.
 
