@@ -1,28 +1,27 @@
 require 'spec_helper'
-require 'httparty'
 
 describe Vueport::NodeClient do
   describe '#run!' do
     let(:content) { '<content>' }
     subject { described_class.new(content) }
+    let(:url_matcher) { %r{http://localhost:5000/.*} }
 
-    context 'and node renders successfully' do
-      let(:response) { double('HTTParty::Response', code: 200, body: content) }
+    context 'when node renders successfully' do
+      let!(:node_server) { stub_request(:post, url_matcher).to_return body: content, status: 200 }
 
       it 'runs the node command' do
-        expect(HTTParty).to receive(:post).and_return response
         subject.run!
+        expect(node_server).to have_been_requested
       end
     end
 
-    context 'and node throws an error' do
+    context 'when node throws an error' do
       let(:error) { 'error' }
-      let(:response) { double('HTTParty::Response', code: 500, body: error) }
-
-      before { allow(HTTParty).to receive(:post).and_return response }
+      let!(:node_server) { stub_request(:post, url_matcher).to_return body: error, status: 500 }
 
       it 'raises' do
         expect { subject.run! }.to raise_error(Vueport::RenderError, error)
+        expect(node_server).to have_been_requested
       end
     end
   end
