@@ -3,4 +3,4 @@ require 'bundler'
 require 'action_view'
 require 'vueport'
 
-Bundler.require :default, :development
+Bundler.require :default, :development, :test

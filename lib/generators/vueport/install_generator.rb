@@ -1,13 +1,12 @@
 module Vueport
   class InstallGenerator < ::Rails::Generators::Base
-    source_root File.expand_path('../../../../example', __FILE__)
+    source_root File.expand_path('../template', __FILE__)
+
     desc 'Install extras for using Vue with WebpackRails'
 
     def add_webpack_rails
       gem 'webpack-rails'
-      if (@foreman = yes?("Are you planning on using Foreman to run this app locally? [y/N]\n(If you're not sure and you're not using Docker Compose or similar, the answer is probably yes)"))
-        gem 'foreman'
-      else
+      gem 'foreman'
     end
 
     def add_to_gitignore
@@ -18,8 +17,8 @@ module Vueport
         /public/webpack
         /npm-debug.log
 
-        renderer/node_modules
-        renderer/npm-debug.log
+        /renderer/node_modules
+        /renderer/npm-debug.log
         EOF
       end
     end
@@ -30,14 +29,14 @@ module Vueport
 
     def copy_eslint
       copy_file '.eslintrc.js'
-      copy_file '.eslintrcignore'
+      copy_file '.eslintignore'
     end
 
     def copy_config_files
       directory 'vueport', 'config/vueport'
     end
 
-    def copy_config_files
+    def copy_renderer_files
       directory 'renderer'
     end
 
@@ -48,37 +47,46 @@ module Vueport
 
     def create_setup_files
       directory 'webpack'
-      copy_file 'babelrc', '.babelrc'
+      copy_file '.babelrc'
       empty_directory 'app/components'
     end
 
     def run_npm_install
-      if `yarn -V`.present?
-        run 'yarn' if yes?("Would you like me to run 'yarn' for you? [y/N]")
-      else
-        run 'npm install' if yes?("Would you like me to run 'npm install' for you? [y/N]")
+      if yarn? && yes?("Would you like me to run 'yarn' for you? [y/N]")
+        run 'yarn'
+      elsif !yarn? && yes?("Would you like me to run 'npm install' for you? [y/N]")
+        run 'npm install'
       end
     end
 
     def run_bundle_install
-      run "bundle install" if yes?("Would you like me to run 'bundle install' for you? [y/N]")
+      run 'bundle install' if yes?("Would you like me to run 'bundle install' for you? [y/N]")
     end
 
     def whats_next
-      # rubocop:disable Rails/Output
-      puts <<-EOF.strip_heredoc
+      say ""
+      say 'All done!', :green
 
-        I've added a few things here and there to set you up using Vue in your Rails app.
+      say ""
+      say "I've added a few things here and there to set you up using Vue in your Rails app."
+      say "Now you're already to create your first Vue component in app/components."
+      say ""
 
-        Now you're already to create your first Vue component in app/components.
-        Run 'foreman start -f Procfile.dev' to run the webpack-dev-server and rails server.
+      say "To run the webpack-dev-server and rails server:"
+      say 'foreman start -f Procfile.dev', :yellow
+      say ""
 
-        See the README.md for this gem at
-        https://github.com/samtgarson/vueport
-        for more info.
-        Thanks for using Vueport!
-      EOF
-      # rubocop:enable Rails/Output
+      say "For more info, see the README.md for this gem at:"
+      say "https://github.com/samtgarson/vueport", :blue
+      say ""
+
+      say "Thanks for using Vueport!"
     end
+
+    private
+
+      def yarn?
+        @yarn ||= `yarn -V`.present?
+      end
   end
 end

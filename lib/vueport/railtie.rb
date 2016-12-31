@@ -14,9 +14,5 @@ module Vueport
         include Vueport::Helper
       end
     end
-
-    rake_tasks do
-      load 'tasks/vueport.rake'
-    end
   end
 end
