@@ -1,5 +1,3 @@
-require 'httparty'
-
 require 'vueport/helper'
 require 'vueport/renderer'
 require 'vueport/node_client'

@@ -1,4 +1,3 @@
-
 module Vueport
   class RenderError < StandardError; end
 
@@ -16,25 +15,20 @@ module Vueport
     private
 
       def render
-        raise(RenderError.new, response.body) if response.code != 200
-        response.body
+        case response
+        when Net::HTTPSuccess
+          response.body
+        else
+          raise(RenderError.new, response.body)
+        end
       end
 
       def response
-        @response ||= HTTParty.post("http://#{server_uri}/render", post_params)
+        @response ||= http.post '/render', content, 'Content-Type' => 'text/plain'
       end
 
-      def post_params
-        {
-          body: content,
-          headers: {
-            'Content-Type': 'text/plain'
-          }
-        }
-      end
-
-      def server_uri
-        "#{Vueport.config[:server_host]}:#{Vueport.config[:server_port]}"
+      def http
+        @http ||= Net::HTTP.new Vueport.config[:server_host], Vueport.config[:server_port]
       end
   end
 end
