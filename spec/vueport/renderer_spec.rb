@@ -16,6 +16,7 @@ describe Vueport::Renderer do
   describe '#render' do
     let(:content) { 'content' }
     let(:wrapper_selector) { "div##{described_class::CONTENT_WRAPPER_ID}" }
+
     subject { described_class.new(content) }
 
     context 'without SSR' do
@@ -43,6 +44,20 @@ describe Vueport::Renderer do
 
         it 'serves the original template' do
           expect_to_contain_original_template
+        end
+
+        context 'for a specific path' do
+          let(:path) { '/test-path' }
+          subject { described_class.new(content, path: path) }
+
+          it 'passes the path to the client' do
+            expect(Vueport::NodeClient)
+              .to receive(:new)
+              .with(/#{content}/, path: path)
+              .and_return node_client
+
+            subject.render
+          end
         end
       end
 

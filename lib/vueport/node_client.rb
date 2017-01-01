@@ -2,10 +2,11 @@ module Vueport
   class RenderError < StandardError; end
 
   class NodeClient
-    attr_accessor :content
+    attr_accessor :content, :path
 
-    def initialize(content)
+    def initialize(content, path: '/')
       self.content = content
+      self.path = path
     end
 
     def run!
@@ -24,7 +25,7 @@ module Vueport
       end
 
       def response
-        @response ||= http.post '/render', content, 'Content-Type' => 'text/plain'
+        @response ||= http.post path, content, 'Content-Type' => 'text/plain'
       end
 
       def http

@@ -5,10 +5,11 @@ module Vueport
     CONTENT_WRAPPER_ID = 'vueport-wrapper'.freeze
     TEMPLATE_ID = 'vueport-template'.freeze
 
-    attr_accessor :content
+    attr_accessor :content, :path
 
-    def initialize(content)
+    def initialize(content, path: '/')
       self.content = content
+      self.path = path
     end
 
     def render
@@ -26,7 +27,7 @@ module Vueport
       end
 
       def ssr_content
-        Vueport::NodeClient.new(wrapper(content)).run!
+        Vueport::NodeClient.new(wrapper(content), path: path).run!
       rescue Vueport::RenderError
         wrapper
       end
