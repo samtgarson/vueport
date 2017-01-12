@@ -10,7 +10,7 @@ module Vueport
     end
 
     def run!
-      render.html_safe
+      render.force_encoding('UTF-8').encode!.html_safe
     end
 
     private
