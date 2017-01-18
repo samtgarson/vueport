@@ -33,7 +33,7 @@ module Vueport
       end
 
       def wrapper(content = '')
-        content_tag :div, content, id: CONTENT_WRAPPER_ID
+        content_tag :div, content, id: CONTENT_WRAPPER_ID, 'v-bind:class' => 'wrapperClass'
       end
 
       def ssr_enabled?
