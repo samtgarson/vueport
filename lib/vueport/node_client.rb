@@ -25,11 +25,17 @@ module Vueport
       end
 
       def response
-        @response ||= http.tap { |http| http.read_timeout = 3 }.post path, content, 'Content-Type' => 'text/plain'
+        @response ||= http
+                      .tap { |http| http.read_timeout = timeout }
+                      .post path, content, 'Content-Type' => 'text/plain'
       end
 
       def http
         @http ||= Net::HTTP.new Vueport.config[:server_host], Vueport.config[:server_port]
+      end
+
+      def timeout
+        Vueport.config[:ssr_timeout] || 3
       end
   end
 end
