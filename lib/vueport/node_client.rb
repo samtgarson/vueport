@@ -25,7 +25,7 @@ module Vueport
       end
 
       def response
-        @response ||= http.post path, content, 'Content-Type' => 'text/plain'
+        @response ||= http.tap { |http| http.read_timeout = 3 }.post path, content, 'Content-Type' => 'text/plain'
       end
 
       def http

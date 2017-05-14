@@ -68,6 +68,15 @@ describe Vueport::Renderer do
 
         it_behaves_like 'a basic renderer'
       end
+
+      context 'and node times out' do
+        before do
+          allow(Vueport::NodeClient).to receive(:new).and_call_original
+          allow_any_instance_of(Net::HTTP).to receive(:post).and_raise(Net::ReadTimeout)
+        end
+
+        it_behaves_like 'a basic renderer'
+      end
     end
   end
 
