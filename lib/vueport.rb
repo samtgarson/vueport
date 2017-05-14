@@ -12,11 +12,12 @@ module Vueport
       server_port: 5000,
       server_config_file: 'config/vueport/webpack.server.conf',
       client_config_file: 'config/vueport/webpack.prod.conf',
-      ssr_enabled: false
+      ssr_enabled: false,
+      ssr_timeout: 3
     }
   end
 
-  def configure(&_block)
+  def configure(&_)
     yield config if block_given?
   end
 end

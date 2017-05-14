@@ -28,12 +28,12 @@ module Vueport
 
       def ssr_content
         Vueport::NodeClient.new(wrapper(content), path: path).run!
-      rescue Vueport::RenderError
+      rescue
         wrapper
       end
 
-      def wrapper(content = '')
-        content_tag :div, content, id: CONTENT_WRAPPER_ID, 'v-bind:class' => 'wrapperClass'
+      def wrapper(inner = '')
+        content_tag :div, inner, id: CONTENT_WRAPPER_ID, 'v-bind:class' => 'wrapperClass'
       end
 
       def ssr_enabled?
