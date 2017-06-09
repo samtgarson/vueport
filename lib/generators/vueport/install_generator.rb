@@ -2,68 +2,16 @@ module Vueport
   class InstallGenerator < ::Rails::Generators::Base
     source_root File.expand_path('../template', __FILE__)
 
-    desc 'Install extras for using Vue with WebpackRails'
+    desc 'Install a local node rendering service for Vueport'
 
-    def add_webpack_rails
-      gem 'webpack-rails'
-      gem 'foreman'
-    end
-
-    def add_to_gitignore
-      append_to_file '.gitignore' do
-        <<-EOF.strip_heredoc
-        # Added by vueport
-        /node_modules
-        /public/webpack
-        /npm-debug.log
-
-        /renderer/node_modules
-        /renderer/npm-debug.log
-        /renderer/bundle.server.js
-        EOF
+    def add_gems
+      gem_group :development do
+        gem 'foreman'
       end
     end
 
-    def copy_package_json
-      copy_file 'package.json'
-    end
-
-    def copy_eslint
-      copy_file '.eslintrc.js'
-      copy_file '.eslintignore'
-    end
-
-    def copy_config_files
-      directory 'vueport', 'config/vueport'
-    end
-
-    def copy_renderer_files
-      directory 'renderer'
-    end
-
-    def update_procfile
-      copy_file 'Procfile.dev'
-      copy_file 'Procfile'
-    end
-
-    def create_setup_files
-      directory 'webpack'
-      copy_file '.babelrc'
-      empty_directory 'app/components'
-    end
-
-    def run_npm_install
-      if yarn? && yes?("Would you like me to run 'yarn' for you? [y/N]")
-        run 'yarn'
-        run 'cd renderer && yarn'
-      elsif !yarn? && yes?("Would you like me to run 'npm install' for you? [y/N]")
-        run 'npm i'
-        run 'cd renderer && npm i'
-      end
-    end
-
-    def run_bundle_install
-      run 'bundle install' if yes?("Would you like me to run 'bundle install' for you? [y/N]")
+    def install_renderer
+      plugin 'vue-renderer', :git => 'git://github.com/samtgarson/vue-renderer.git'
     end
 
     # rubocop:disable Metrics/MethodLength
@@ -72,12 +20,11 @@ module Vueport
       say 'All done!', :green
 
       say ''
-      say "I've added a few things here and there to set you up using Vue in your Rails app."
-      say "Now you're already to create your first Vue component in app/components."
+      say "I've installed foreman and a vue-rendering service in a local git submodule"
       say ''
 
-      say 'To run the webpack-dev-server and rails server:'
-      say 'foreman start -f Procfile.dev', :yellow
+      say 'You\'ll need to run yarn from ./vue-renderer to install its dependencies:'
+      say 'cd vueport-renderer && yarn', :yellow
       say ''
 
       say 'For more info, see the README.md for this gem at:'
