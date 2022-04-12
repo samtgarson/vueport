@@ -1,6 +1,11 @@
 # Vueport
 >Single file components and SSR for Rails with Vue JS and Webpack
 
+⚠️ **This gem is not actively maintained!** 
+There still doesn't seem to be a good solution for running SSR for Vue (like [react_on_rails](https://github.com/shakacode/react_on_rails) provides for React).
+
+If I were to build this gem again, I would probably use something like [mini_racer](https://github.com/rubyjs/mini_racer) to render the Vue components on the same server, as opposed to introducing an HTTP request and infra overhead. If anyone still uses this gem and wants to do that work, it should be relatively straight forward by modifying the [Renderer class](https://github.com/samtgarson/vueport/blob/master/lib/vueport/renderer.rb#L30).
+
 [![CircleCI](https://img.shields.io/circleci/project/github/samtgarson/vueport/master.svg)](https://circleci.com/gh/samtgarson/vueport) [![Gem Version](https://img.shields.io/gem/v/vueport.svg)](https://rubygems.org/gems/vueport) [![Gem Downloads](https://img.shields.io/gem/dt/vueport.svg)](https://rubygems.org/gems/vueport)
 
 Vueport provides your Rails app with a modern, componentized approach to UI development by using Webpack and Vue.js to enable single file, reactive components rendered on the server and the client and seamless integration with your Rails views.
